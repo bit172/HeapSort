@@ -4,10 +4,11 @@ public class HeapSort
 
 	public static void main(String[] args)
 	{
-		int[] Array = {3,4,6,8,12,22,45,7,20};
+		int[] Array = {32,43,6,8,12,22,45,7,20,6,3,4,89,20,100};
 		int n = Array.length;
 		Heapify(Array,n);
 		int prime = PrimePath(Array,0,n-1);
+		
 		for(int i = 0; i<n;i++)
 			System.out.print(Array[i] + " ");
 		
@@ -17,7 +18,7 @@ public class HeapSort
 		
 		System.out.println();
 		
-		siftDown(Array,0,n-1);
+		sort(Array);
 		
 		for(int i = 0; i<n;i++)
 			System.out.print(Array[i] + " ");
@@ -69,12 +70,22 @@ public class HeapSort
 		
 	}
 	
-	public static void sort(int[] array)
-	{
+	public static void sort(int[] input)
+	{	
+		int size = input.length;
+		
+		int n = size - 1;
+		
+		Heapify(input,size);
+		
+		for(int last=n;last >= 1;last--)
+		{
+			siftDown(input,0,last);
+		}
 		
 	}
 	
-	public static void sorttrace(int[] array)
+	public static void sort(int[] array, int traceStep)
 	{
 		
 	}
@@ -100,18 +111,16 @@ public class HeapSort
 	
 	public static void siftDown(int[] array, int i, int last)
 	{
-		int prime_index = PrimePath(array,i,last);
+		int prime_index = PrimePath(array, i, last);
 		
-		while( array[i] > array[prime_index])
-			prime_index = (prime_index - 1)/2;
-		
-		int x = array[prime_index];
-		array[prime_index] = array[i];
-		
-		while( prime_index > i)
+		while(prime_index >= 0)
 		{
-			array[(prime_index - 1)/2] = x;
-			prime_index = (prime_index - 1)/2;
+			swap(array,prime_index,last);
+			
+			if(prime_index == 0)
+				break;
+			
+			prime_index = parent(prime_index);
 		}
 	}
 	
@@ -121,5 +130,11 @@ public class HeapSort
 		array[a] = array[b];
 		array[b] = temp;
 	}
+	
+	public static int parent(int node)
+	{
+		return (node - 1)/2;
+	}
+	
 
 }
